@@ -2904,6 +2904,9 @@ public class AstBuilder extends StarRocksBaseVisitor<ParseNode> {
 
     @Override
     public ParseNode visitCancelBackupStatement(StarRocksParser.CancelBackupStatementContext context) {
+        if (context.identifier() == null) {
+            throw new ParsingException(PARSER_ERROR_MSG.nullIdentifierCancelBackupRestore());
+        }
         return new CancelBackupStmt(((Identifier) visit(context.identifier())).getValue(),
                 false, createPos(context));
     }
@@ -2955,6 +2958,9 @@ public class AstBuilder extends StarRocksBaseVisitor<ParseNode> {
 
     @Override
     public ParseNode visitCancelRestoreStatement(StarRocksParser.CancelRestoreStatementContext context) {
+        if (context.identifier() == null) {
+            throw new ParsingException(PARSER_ERROR_MSG.nullIdentifierCancelBackupRestore());
+        }
         return new CancelBackupStmt(((Identifier) visit(context.identifier())).getValue(), true,
                 createPos(context));
     }
@@ -5474,6 +5480,11 @@ public class AstBuilder extends StarRocksBaseVisitor<ParseNode> {
             row.add((Expr) visit(context.expressionOrDefault(i)));
         }
         return new ValueList(row, createPos(context));
+    }
+
+    @Override
+    public ParseNode visitExpressionSingleton(StarRocksParser.ExpressionSingletonContext context) {
+        return visit(context.expression());
     }
 
     @Override

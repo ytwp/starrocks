@@ -1,5 +1,6 @@
 ---
 displayed_sidebar: "Chinese"
+keywords: ['Canshu']
 ---
 
 # FE 配置项
@@ -141,6 +142,11 @@ ADMIN SET FRONTEND CONFIG ("key" = "value");
 
 - 含义：是否开启 Decimal V3。
 - 默认值：TRUE
+
+#### expr_children_limit
+
+- 含义：一个表达式中子表达式的最大数量。
+- 默认值：10000
 
 #### enable_sql_blacklist
 
@@ -349,7 +355,7 @@ ADMIN SET FRONTEND CONFIG ("key" = "value");
 
 #### disable_load_job
 
-- 含义：是否禁用任何导入任务，集群出问题时的止损措施。
+- 含义：是否禁用任何导入任务，集群出问题时的止损措施。设置为 TRUE 时，无法进行导入任务，集群仅处于可读状态。
 - 默认值：FALSE
 
 #### history_job_keep_max_second
@@ -526,7 +532,7 @@ ADMIN SET FRONTEND CONFIG ("key" = "value");
 
 #### catalog_trash_expire_second
 
-- 含义：删除表/数据库之后，元数据在回收站中保留的时长，超过这个时长，数据就不可以再恢复。
+- 含义：通过 DROP 删除数据库、表或分区之后，元数据在回收站中保留的时长，超过这个时长，数据就不可以通过 RECOVER 命令再恢复。
 - 单位：秒
 - 默认值：86400
 
